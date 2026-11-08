@@ -6,6 +6,7 @@ import catAwake from './assets/awake.gif';
 import catLieDown from './assets/lie-down.gif';
 import catGetUp from './assets/get-up.gif';
 import catSleep from './assets/sleep.gif';
+import CommentsBlock from './CommentsBlock.vue';
 
 const hobbies = [
   'Рисование — рисую с детства, в свободное время делаю арты в Paint Tool Sai 2 или в скетчбуке',
@@ -21,7 +22,7 @@ const contacts = [
   { name: 'ВКонтакте', url: 'https://vk.ru/wai_kl' },
 ];
 
-const skills = ['C++', 'HTML и CSS', 'JavaScript', 'React', 'Vue.js', 'Ассемблер', 'Blender', 'Figma', 'Paint Tool Sai'];
+const skills = ['C++', 'HTML и CSS', 'JavaScript', 'Python', 'React', 'Vue.js', 'Ассемблер', 'Blender', 'Figma', 'Paint Tool Sai'];
 
 const isNight = ref(false);
 const cat = ref(catAwake);
@@ -126,7 +127,9 @@ function onCatLoad() {
             </p>
           </div>
         </div>
-
+        <div class="wide-cell">
+        <CommentsBlock />
+        </div>
       </div>
     </div>
   </div>
