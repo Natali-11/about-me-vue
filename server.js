@@ -20,6 +20,16 @@ app.post('/api/comments', (req, res) => {
   res.status(201).json(newComment);     
 });
 
+app.delete('/api/comments/:id', (req, res) => {
+    const commentId = Number(req.params.id);
+    const text = fs.readFileSync('comments.json', 'utf-8'); 
+    const comments = JSON.parse(text);
+    const updated = comments.filter((comment) => comment.id !== commentId);
+    if(updated.length === comments.length){res.status(404).json({error: 'Комментарий не найден'}); return;}
+    fs.writeFileSync('comments.json', JSON.stringify(updated, null, 2));
+    res.status(204).end();
+});
+
 app.listen(3000, () => {        // слушать порт 3000
   console.log('Сервер работает: http://localhost:3000');
 });
