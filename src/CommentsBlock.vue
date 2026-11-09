@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const comments = ref([]);
 const newText = ref('');
@@ -64,12 +64,24 @@ async function loadComments() {
   const res = await fetch('/api/comments');
   const data = await res.json();
   comments.value = data;
+  listEl.value.replaceChildren();     
   for (const comment of data) {
     renderComment(comment);
   }
 }
 
-onMounted(loadComments);
+
+let timer;
+
+onMounted(() => {
+  loadComments();
+  timer = setInterval(loadComments, 5000);
+});
+
+onUnmounted(() => {
+  clearInterval(timer);
+});
+
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 import express from 'express';
 import { DatabaseSync } from 'node:sqlite';
+import { Bot, InlineKeyboard } from 'grammy';
 
 const app = express();
 const db = new DatabaseSync('comments.db');
@@ -12,6 +13,57 @@ db.exec(`
     owner_key  TEXT NOT NULL
   )
 `);
+
+// тг-бот
+const bot = new Bot(process.env.BOT_TOKEN);
+const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;
+
+// Проверка: это написал или нажал автор сайта?
+function isAdmin(ctx) {
+  return String(ctx.from.id) === ADMIN_CHAT_ID;
+}
+
+bot.command('start', (ctx) => {
+  ctx.reply('Привет! Твой chat id: ' + ctx.chat.id);
+});
+
+// Нажатие на кнопку под сообщением
+bot.on('callback_query:data', async (ctx) => {
+  if (!isAdmin(ctx)) {
+    await ctx.answerCallbackQuery({ text: 'Нет прав' });
+    return;
+  }
+
+  const data = ctx.callbackQuery.data;          
+  if (!data.startsWith('delete:')) return;
+
+  const id = Number(data.split(':')[1]);        
+  const result = db.prepare('DELETE FROM comments WHERE id = ?').run(id);
+
+  if (result.changes === 0) {
+    await ctx.answerCallbackQuery({ text: 'Комментарий уже удалён' });
+    await ctx.editMessageText(`Комментарий #${id} уже был удалён`);
+    return;
+  }
+
+  await ctx.answerCallbackQuery({ text: 'Удалено' });
+  await ctx.editMessageText(`Комментарий #${id} удалён`);
+});
+
+bot.catch((err) => console.error('Ошибка бота:', err.message));
+bot.start();
+
+// Отправить автору уведомление о новом комментарии
+function notifyAdmin(comment) {
+  const keyboard = new InlineKeyboard().text('Удалить', 'delete:' + comment.id);
+  const msg = `Новый комментарий #${comment.id}:\n${comment.text}`;
+
+  bot.api
+    .sendMessage(ADMIN_CHAT_ID, msg, { reply_markup: keyboard })
+    .catch((err) => console.error('Не удалось отправить в Telegram:', err.message));
+}
+
+// сайт (API)
 
 app.use(express.json());
 
@@ -34,6 +86,8 @@ app.post('/api/comments', (req, res) => {
     .run(text, createdAt, key);
 
   const newComment = { id: Number(result.lastInsertRowid), text: text, created_at: createdAt, key: key };
+
+  notifyAdmin(newComment);
   res.status(201).json(newComment);
 });
 
