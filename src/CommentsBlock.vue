@@ -29,6 +29,13 @@ async function removeComment(id,li){
 function renderComment(comment){
   const li = document.createElement('li');
   li.textContent = comment.text;
+  const small = document.createElement('small');
+  const date = new Date(comment.created_at);
+small.textContent = ' ' + date.toLocaleString('ru-RU', {
+  day: '2-digit', month: '2-digit', year: 'numeric',
+  hour: '2-digit', minute: '2-digit',
+});
+  li.appendChild(small);
   const button = document.createElement('button');
   button.textContent = '✕';
 button.addEventListener('click', () => removeComment(comment.id, li));

@@ -20,8 +20,8 @@ app.get('/api/comments', (req, res) => {
 
 app.post('/api/comments', (req, res) => {
     const text = req.body.text;
-    if (req.body.text.trim() === '') {res.status(400).json({error: 'Комментарий не может быть пустым'}); return;}
-    const createdAt = new Date().toISOString(); 
+    if (req.body.text.trim() === '') {res.status(400).json({error: 'Комментарий не может быть пустым'}); return;}   
+    const createdAt = new Date().toISOString();                     
     const result = db.prepare('INSERT INTO comments (text, created_at) VALUES (?, ?)').run(text, createdAt);
     const newComment = {id: Number(result.lastInsertRowid), text: text, created_at:createdAt };
     res.status(201).json(newComment);     
