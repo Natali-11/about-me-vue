@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const comments = ref([]);
 const newText = ref('');
@@ -27,6 +27,18 @@ button.addEventListener('click', () => removeComment(comment.id, li));
   li.appendChild(button);
   listEl.value.appendChild(li);
 }
+
+async function loadComments() {
+  const res = await fetch('/api/comments');
+  const data = await res.json();
+  comments.value = data;
+  for (const comment of data) {
+    renderComment(comment);
+  }
+}
+
+onMounted(loadComments);
+
 </script>
 
 <template>

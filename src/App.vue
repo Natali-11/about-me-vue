@@ -8,6 +8,7 @@ import catGetUp from './assets/get-up.gif';
 import catSleep from './assets/sleep.gif';
 import CommentsBlock from './CommentsBlock.vue';
 
+
 const hobbies = [
   'Рисование — рисую с детства, в свободное время делаю арты в Paint Tool Sai 2 или в скетчбуке',
   'Хип-хоп — почти год занималась танцами и мечтаю к ним вернуться',
