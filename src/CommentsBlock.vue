@@ -3,15 +3,29 @@ import { ref } from 'vue';
 
 const comments = ref([]);
 const newText = ref('');
+const listEl = ref(null);
 
 function addComment() {
   if (newText.value.trim() === '') return;
-  comments.value.push({id: Date.now(), text: newText.value})
+  const newComment = { id: Date.now(), text: newText.value };
+  comments.value.push(newComment);
+  renderComment(newComment);
   newText.value = '';
 }
 
-function removeComment(id){
+function removeComment(id,li){
   comments.value = comments.value.filter((comment) => comment.id !== id)
+  li.remove();
+}
+
+function renderComment(comment){
+  const li = document.createElement('li');
+  li.textContent = comment.text;
+  const button = document.createElement('button');
+  button.textContent = '✕';
+button.addEventListener('click', () => removeComment(comment.id, li));
+  li.appendChild(button);
+  listEl.value.appendChild(li);
 }
 </script>
 
@@ -23,9 +37,8 @@ function removeComment(id){
     <button>Отправить</button>
     </form>
     <p v-if="comments.length === 0"> Пока нет комментариев </p>
-    <ul>
-    <li v-for="comment in comments" :key="comment.id"> {{comment.text}} 
-    <button @click="removeComment(comment.id)">✕</button>
-    </li> </ul>
+    <ul ref="listEl">
+
+    </ul>
   </div>
 </template>
