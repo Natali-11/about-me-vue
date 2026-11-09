@@ -5,15 +5,23 @@ const comments = ref([]);
 const newText = ref('');
 const listEl = ref(null);
 
-function addComment() {
+async function addComment() {
   if (newText.value.trim() === '') return;
-  const newComment = { id: Date.now(), text: newText.value };
+  const res = await fetch('/api/comments',{
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ text: newText.value }),
+})
+  const newComment = await res.json();
   comments.value.push(newComment);
   renderComment(newComment);
   newText.value = '';
 }
 
-function removeComment(id,li){
+async function removeComment(id,li){
+  await fetch('/api/comments/'+id,{
+  method: 'DELETE'
+})
   comments.value = comments.value.filter((comment) => comment.id !== id)
   li.remove();
 }
