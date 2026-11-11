@@ -1,0 +1,195 @@
+
+/*Блок и форма*/
+
+/* блок комментариев */
+.comments {
+  width: 100%;
+}
+/*"Комментарии"*/
+.comments-title {
+  margin-top: 0;
+  color: #a32d54;
+  font-size: 28px;
+  font-style: italic;
+}
+
+/*Форма поля и кнопка в одну строку с переносом, если не помещаются*/
+.comment-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/*"Ответ для.." над полями*/
+.reply-info {
+  width: 100%;
+  margin: 0;
+  color: #8a4c65;
+  font-style: italic;
+}
+
+/*Поля ввода (Имя и текст сообщения) скругленные и с рамкой*/
+.comment-form input {
+  padding: 8px 16px;
+  border: 1.5px solid #a32d54;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #153e09;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+/*Поле, в котором будет стоять курсор будет мягко подсвечен*/
+.comment-form input:focus {
+  box-shadow: 0 0 0 4px rgba(163, 45, 84, 0.2);
+}
+
+/*Поле с именем*/
+.name-input {
+  width: 180px;
+}
+
+/*Поле с сообщением*/
+.text-input {
+  flex: 1; /*занять все свободное место, которое осталось в строке*/
+  min-width: 200px;
+}
+
+/*Кнопка "Отправить" возле сообщения*/
+.btn-primary {
+  padding: 8px 22px;
+  border: none;
+  border-radius: 20px;
+  background-color: #a73562;
+  color: #f8fa81;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer; /*курсор при наведении в форме руки*/
+  transition: transform 0.2s; 
+}
+
+/*При наведении на кнопку "Отправить" кнопка чуть поднимается*/
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/*Кнопка "отменить"*/
+.btn-link {
+  border: none;
+  background: none;
+  color: #a32d54;
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/*надпись "Пока нет комментариев"*/
+.empty {
+  color: #8a4c65;
+  font-style: italic;
+}
+
+/*Список комментариев - столбик без меток-маркеров*/
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*Комментарии*/
+
+/*блок одного комментария со скругленным полупрозрачным фоном*/
+.comment {
+  padding: 14px 20px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/*Шапка комментария с именем, датой*/
+.comment-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/*Имя автора комментария*/
+.comment-head strong {
+  color: #a32d54;
+  font-size: 18px;
+}
+
+/*Дата комментария*/
+.comment-head small {
+  color: #8a4c65;
+}
+
+/*Значок автора "★ Автор"*/
+.comment-badge {
+  padding: 2px 10px;
+  border-radius: 20px;
+  background-color: #a32d54;
+  color: #fff8f3;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/*Текст комментария*/
+.comment-text {
+  margin: 6px 0 10px;
+  font-size: 17px;
+  line-height: 1.5;
+  white-space: pre-wrap;      /* сохранить переносы строк */
+  overflow-wrap: anywhere;    /* разрывать слишком длинные слова */
+}
+
+/*Ряд кнопок под комментарием (н-р: ответить, удалить)*/
+.comment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/*Кнопки под комментарием с рамкой*/
+.comment-actions button {
+  padding: 2px 12px;
+  border: 1.5px solid #a32d54;
+  border-radius: 20px;
+  background: none;
+  color: #a32d54;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/*Кнопки при наведении подсвечиваются*/
+.comment-actions button:hover {
+  background-color: #a32d54;
+  color: #fff8f3;
+}
+
+/*Ответы: список внутри комментария со сдвигом вправо и зеленой линией сбоку*/
+.comment-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0 0 0 18px;
+  border-left: 3px solid rgba(110, 150, 90, 0.5);
+  list-style: none;
+}
+
+/*Блок ответа без теней*/
+.comment-replies .comment {
+  background-color: rgba(201, 232, 203, 0.35);
+  box-shadow: none;
+}
